@@ -1,27 +1,51 @@
 <ion-header>
   <ion-toolbar>
+
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+
     <ion-title>
-      List
+      Products
     </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="sortActionSheet()">
+        <ion-icon slot="icon-only" name="ios-funnel"></ion-icon>
+      </ion-button>      
+    </ion-buttons>
+
   </ion-toolbar>
+
+  <ion-searchbar (ionInput)="searchItems($event)"></ion-searchbar>
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <ion-list>
-    <ion-item *ngFor="let item of items">
-      <ion-icon [name]="item.icon" slot="start"></ion-icon>
-      {{item.title}}
+    <ion-item *ngFor="let product of products">
+      <img src="{{product.thumb}}">
+      {{product.name}}
       <div class="item-note" slot="end">
-        {{item.note}}
+        <div *ngIf="product.special">
+          <del>{{product.price}}</del>
+          {{product.special}}
+        </div>
+        <div *ngIf="!product.special">
+          {{product.price}}
+        </div>
+
       </div>
     </ion-item>
   </ion-list>
-  <!--
-    <div *ngIf="selectedItem" padding>
-      You navigated here from <b>{{selectedItem.title }}</b>
-    </div>
-  -->
+
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>
