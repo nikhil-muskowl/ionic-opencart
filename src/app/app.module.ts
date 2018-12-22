@@ -10,10 +10,11 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from "@angular/common/http";
+import { FilterComponent } from './filter/filter.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [AppComponent, FilterComponent],
+  entryComponents: [FilterComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

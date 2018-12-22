@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from "../services/product.service";
 import { ActionSheetController } from '@ionic/angular';
 import { InfiniteScroll } from '@ionic/angular';
-
+import { PopoverController } from '@ionic/angular';
+import { FilterComponent } from "../filter/filter.component";
 @Component({
   selector: 'app-list',
   templateUrl: 'list.page.html',
@@ -20,8 +21,13 @@ export class ListPage implements OnInit {
   public pagination: any;
   public sorts: any;
   public limits: any;
-
-  constructor(public productService: ProductService, public actionSheetController: ActionSheetController) {
+  public sort;
+  public order;
+  constructor(
+    public productService: ProductService,
+     public actionSheetController: ActionSheetController,
+     public popoverController: PopoverController
+     ) {
     this.page = 1;
     this.products = [];
   }
@@ -31,27 +37,31 @@ export class ListPage implements OnInit {
   }
 
 
-  sortActionSheet() {
-    // let actionSheet = this.actionSheetController.create({
-    //   header: 'Sort Products',
-    // });
+  async sortActionSheet() {
+    let customButtons = [];
+    for (let index = 0; index < this.sorts.length; index++) {
+      var sortsButtons = {
+        text: this.productService.decodeEntities(this.sorts[index].text),
+        handler: () => {
+          this.sorts = this.sorts[index].value;
+          let sortArray = this.sorts.split("-");
+         
+          this.sort = sortArray[0];
+          this.order = sortArray[1];
+          this.products = [];
+          this.page = 1;
+          this.getItems();
+        }
+      };
+      customButtons.push(sortsButtons);
+    }
 
-    // for (let index = 0; index < this.sorts.length; index++) {
+    let actionSheet = await this.actionSheetController.create({
+      header: 'Sort',
+      buttons: customButtons
+    });
 
-    //   var sortsButtons = {
-    //     text: this.productService.decodeEntities(this.sorts[index].text),
-    //     handler: () => {
-    //       this.sorts = this.sorts[index].value;
-    //       let sortArray = this.sorts.split("-");
-    //       this.sorts = sortArray[0];
-
-    //       this.products = [];
-    //       this.getItems();
-    //     }
-    //   };
-    //   actionSheet.addButton(sortsButtons);
-    // }
-    // actionSheet.present();
+    actionSheet.present();
   }
 
 
@@ -104,6 +114,8 @@ export class ListPage implements OnInit {
     this.filterData = {
       'search': this.search,
       'page': this.page,
+      'sort': this.sort,
+      'order': this.order,
     };
     this.productService.search(this.filterData).subscribe(
       response => {
@@ -134,6 +146,15 @@ export class ListPage implements OnInit {
 
       }
     );
+  }
+
+  async presentFilterPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: FilterComponent,
+      event: ev,
+      translucent: false
+    });
+    return await popover.present();
   }
 
   // add back when alpha.4 is out

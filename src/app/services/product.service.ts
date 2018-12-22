@@ -22,6 +22,12 @@ export class ProductService {
     if (data.page) {
       this.url += '&page=' + data.page;
     }
+    if (data.sort) {
+      this.url += '&sort=' + data.sort;
+    }
+    if (data.order) {
+      this.url += '&order=' + data.order;
+    }
     if (data.search) {
       this.url += '&search=' + data.search;
     }
