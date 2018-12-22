@@ -12,10 +12,10 @@
     <ion-buttons slot="end">
       <ion-button (click)="sortActionSheet()">
         <ion-icon slot="icon-only" name="ios-list"></ion-icon>
-      </ion-button>      
+      </ion-button>
       <ion-button (click)="presentFilterPopover($event)">
         <ion-icon slot="icon-only" name="ios-funnel"></ion-icon>
-      </ion-button>      
+      </ion-button>
     </ion-buttons>
 
   </ion-toolbar>
@@ -27,12 +27,18 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  
+
 
   <ion-list>
     <ion-item *ngFor="let product of products">
-      <img src="{{product.thumb}}">
-      {{product.name}}
+
+      <ion-avatar slot="start">
+        <img src="{{product.thumb}}">
+      </ion-avatar>
+      <ion-label>
+        {{product.name}}
+      </ion-label>
+
       <div class="item-note" slot="end">
         <div *ngIf="product.special">
           <del>{{product.price}}</del>

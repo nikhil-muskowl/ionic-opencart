@@ -25,9 +25,9 @@ export class ListPage implements OnInit {
   public order;
   constructor(
     public productService: ProductService,
-     public actionSheetController: ActionSheetController,
-     public popoverController: PopoverController
-     ) {
+    public actionSheetController: ActionSheetController,
+    public popoverController: PopoverController
+  ) {
     this.page = 1;
     this.products = [];
   }
@@ -45,7 +45,7 @@ export class ListPage implements OnInit {
         handler: () => {
           this.sorts = this.sorts[index].value;
           let sortArray = this.sorts.split("-");
-         
+
           this.sort = sortArray[0];
           this.order = sortArray[1];
           this.products = [];

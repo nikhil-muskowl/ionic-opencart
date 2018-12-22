@@ -10,11 +10,8 @@
 
 
 <ion-item>
-  <ion-label>Hair Color</ion-label>
+  <ion-label>Manafactures</ion-label>
   <ion-select value="brown" ok-text="Okay" cancel-text="Dismiss">
-    <ion-select-option value="brown">Brown</ion-select-option>
-    <ion-select-option value="blonde">Blonde</ion-select-option>
-    <ion-select-option value="black">Black</ion-select-option>
-    <ion-select-option value="red">Red</ion-select-option>
+    <ion-select-option *ngFor="let category of categories" value="{{category.category_id}}">{{category.name}}</ion-select-option>
   </ion-select>
 </ion-item>

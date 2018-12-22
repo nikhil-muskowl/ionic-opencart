@@ -4,6 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ConfigService {
-  public base_url: string = 'http://localhost/opencart/beauty/index.php';
+  public base_url: string = 'http://beauty.muskowl.com/index.php';
   constructor() { }
 }

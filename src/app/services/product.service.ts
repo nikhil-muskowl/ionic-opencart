@@ -31,7 +31,7 @@ export class ProductService {
     if (data.search) {
       this.url += '&search=' + data.search;
     }
-    
+
     if (data.category_filter) {
       this.url += '&category_filter=' + data.category_filter;
     }
@@ -63,5 +63,18 @@ export class ProductService {
     var decodedString = dom.body.textContent;
     return decodedString;
   }
-  
+
+
+
+  categories() {
+    this.formData = new FormData();
+    this.url = this.config.base_url + '?route=restapi/product/category';
+    return this.http.get<any>(this.url,
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
+
 }
